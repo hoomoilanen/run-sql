@@ -56,8 +56,6 @@ def init_tcp_connection_engine(db_config):
     db_port = 5432
 
     pool = sqlalchemy.create_engine(
-        # Equivalent URL:
-        # postgresql+pg8000://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
         sqlalchemy.engine.url.URL.create(
             drivername="postgresql+pg8000",
             username=db_user,  # e.g. "my-database-user"
