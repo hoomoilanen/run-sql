@@ -5,4 +5,4 @@ steps:
   args: ['push', 'gcr.io/pipeline-demo-328906/juukeli']
 images: ['gcr.io/pipeline-demo-328906/juukeli']
 options:
-logging: CLOUD_LOGGING_ONLY
+  logging: CLOUD_LOGGING_ONLY
