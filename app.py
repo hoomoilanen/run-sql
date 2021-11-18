@@ -3,11 +3,30 @@ import config
 from flask import Flask, render_template, request, url_for, flash, redirect
 from werkzeug.exceptions import abort
 from datetime import datetime
+import datetime
+import logging
+import os
+import ssl
+import sqlalchemy
 
 
 def get_db_connection():
-    con = psycopg2.connect(**config.config())
-    return con
+    pool = sqlalchemy.create_engine(
+        # Equivalent URL:
+        # postgresql+pg8000://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
+        sqlalchemy.engine.url.URL.create(
+            drivername="postgresql+pg8000",
+            username="keijo",  # e.g. "my-database-user"
+            password="keijo",  # e.g. "my-database-password"
+            host="127.0.0.1",  # e.g. "127.0.0.1"
+            port=5432,  # e.g. 5432
+            database="keijo"  # e.g. "my-database-name"
+        ),
+        **db_config
+    )
+    # [END cloud_sql_postgres_sqlalchemy_create_tcp]
+    pool.dialect.description_encoding = None
+    return pool
 
 #
 
