@@ -24,7 +24,6 @@ def get_post(post_id):
     global db
     db = get_db_connection()
     conn = db.connect
-    cur = conn.cursor()
     conn.execute('SELECT * FROM posts WHERE id = %s',
                         (post_id,))
     post = cur.fetchone()
@@ -50,9 +49,8 @@ def format_date(post_date):
 @app.route('/')
 def index():
     con = get_db_connection()
-    cursor = con.cursor()
     con.execute('SELECT * FROM posts')
-    posts=cursor.fetchall()
+    posts=con.fetchall()
     con.close()
     # we need to iterate over all posts and format their date accordingly
     dictrows = []
@@ -83,7 +81,6 @@ def create():
             flash('Title is required!')
         else:
             con = get_db_connection()
-            cursor = con.cursor()
             con.execute('INSERT INTO posts (title, content) VALUES (%s, %s)',
                          (title, content))
             con.commit()
@@ -105,7 +102,6 @@ def edit(id):
             flash('Title is required!')
         else:
             con = get_db_connection()
-            cursor = con.cursor()
             con.execute('UPDATE posts SET title = %s, content = %s'
                          ' WHERE id = %s',
                          (title, content, id))
@@ -122,7 +118,6 @@ def delete(id):
     post = get_post(id)
     con = get_db_connection()
     t = (id,)
-    cursor = con.cursor()
     con.execute('DELETE FROM posts WHERE id = %s', t)
     con.commit()
     con.close()
