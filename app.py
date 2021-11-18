@@ -72,7 +72,9 @@ def init_tcp_connection_engine(db_config):
     return pool
 
 def get_post(post_id):
-    conn = get_db_connection()
+    global db
+    db = init_connection_engine()
+    conn = db.connect
     cur = conn.cursor()
     cur.execute('SELECT * FROM posts WHERE id = %s',
                         (post_id,))
