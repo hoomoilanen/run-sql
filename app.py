@@ -25,7 +25,7 @@ def get_post(post_id):
     db = get_db_connection()
     conn = db.connect
     cur = conn.cursor()
-    cur.execute('SELECT * FROM posts WHERE id = %s',
+    conn.execute('SELECT * FROM posts WHERE id = %s',
                         (post_id,))
     post = cur.fetchone()
     conn.close()
@@ -51,7 +51,7 @@ def format_date(post_date):
 def index():
     con = get_db_connection()
     cursor = con.cursor()
-    cursor.execute('SELECT * FROM posts')
+    con.execute('SELECT * FROM posts')
     posts=cursor.fetchall()
     con.close()
     # we need to iterate over all posts and format their date accordingly
@@ -84,7 +84,7 @@ def create():
         else:
             con = get_db_connection()
             cursor = con.cursor()
-            cursor.execute('INSERT INTO posts (title, content) VALUES (%s, %s)',
+            con.execute('INSERT INTO posts (title, content) VALUES (%s, %s)',
                          (title, content))
             con.commit()
             con.close()
@@ -106,7 +106,7 @@ def edit(id):
         else:
             con = get_db_connection()
             cursor = con.cursor()
-            cursor.execute('UPDATE posts SET title = %s, content = %s'
+            con.execute('UPDATE posts SET title = %s, content = %s'
                          ' WHERE id = %s',
                          (title, content, id))
             con.commit()
@@ -123,7 +123,7 @@ def delete(id):
     con = get_db_connection()
     t = (id,)
     cursor = con.cursor()
-    cursor.execute('DELETE FROM posts WHERE id = %s', t)
+    con.execute('DELETE FROM posts WHERE id = %s', t)
     con.commit()
     con.close()
     flash('"{}" was successfully deleted!'.format(post[2]))
