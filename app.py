@@ -15,7 +15,7 @@ def get_db_connection():
     # Remember - storing secrets in plaintext is potentially unsafe. Consider using
     # something like https://cloud.google.com/secret-manager/docs/overview to help keep
     # secrets secret.
-    pool = sqlalchemy.create_engine('postgresql+pg8000://keijo:keijo@127.0.0.1:5432/keijo')
+    pool = sqlalchemy.create_engine('postgresql+psycopg2://keijo:keijo@127.0.0.1:5432/keijo')
     # [END cloud_sql_postgres_sqlalchemy_create_tcp]
     pool.dialect.description_encoding = None
     return pool
