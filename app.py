@@ -49,23 +49,7 @@ def init_tcp_connection_engine(db_config):
     # Remember - storing secrets in plaintext is potentially unsafe. Consider using
     # something like https://cloud.google.com/secret-manager/docs/overview to help keep
     # secrets secret.
-    db_user = "keijo"
-    db_pass = "keijo"
-    db_name = "keijo"
-    db_hostname = "127.0.0.1"
-    db_port = 5432
-
-    pool = sqlalchemy.create_engine(
-        sqlalchemy.engine.url.URL.create(
-            drivername="postgresql+pg8000",
-            username=db_user,  # e.g. "my-database-user"
-            password=db_pass,  # e.g. "my-database-password"
-            host=db_hostname,  # e.g. "127.0.0.1"
-            port=db_port,  # e.g. 5432
-            database=db_name  # e.g. "my-database-name"
-        ),
-        **db_config
-    )
+    pool = sqlalchemy.create_engine('postgresql+pg8000://keijo:keijo@127.0.0.1:5432/keijo', **db_config)
     # [END cloud_sql_postgres_sqlalchemy_create_tcp]
     pool.dialect.description_encoding = None
     return pool
