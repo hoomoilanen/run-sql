@@ -51,7 +51,7 @@ def init_tcp_connection_engine(db_config):
     db_user = "keijo"
     db_pass = "keijo"
     db_name = "keijo"
-    db_host = "127.0.0.1"
+    db_hostname = "127.0.0.1"
     db_port = 5432
 
     pool = sqlalchemy.create_engine(
