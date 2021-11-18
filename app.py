@@ -8,6 +8,7 @@ import logging
 import os
 import ssl
 import sqlalchemy
+from sqlalchemy import create_engine
 
 def get_db_connection():
     db_config = {
