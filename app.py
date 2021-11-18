@@ -10,7 +10,7 @@ import ssl
 import sqlalchemy
 
 def get_db_connection():
-db_config = {
+    db_config = {
         # [START cloud_sql_postgres_sqlalchemy_limit]
         # Pool size is the maximum number of permanent connections to keep.
         "pool_size": 5,
@@ -40,8 +40,8 @@ db_config = {
         # [END cloud_sql_postgres_sqlalchemy_lifetime]
     }
 
-
     return init_tcp_connection_engine(db_config)
+
 
 def init_tcp_connection_engine(db_config):
     # [START cloud_sql_postgres_sqlalchemy_create_tcp]
