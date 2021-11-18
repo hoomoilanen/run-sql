@@ -1,0 +1,5 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/pipeline-demo-328906/juukeli', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/pipeline-demo-328906/juukeli']
