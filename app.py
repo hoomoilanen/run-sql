@@ -11,20 +11,16 @@ import sqlalchemy
 from sqlalchemy import create_engine
 
 def get_db_connection():
-    # [START cloud_sql_postgres_sqlalchemy_create_tcp]
-    # Remember - storing secrets in plaintext is potentially unsafe. Consider using
-    # something like https://cloud.google.com/secret-manager/docs/overview to help keep
-    # secrets secret.
-    pool = sqlalchemy.create_engine('postgresql+psycopg2://keijo:keijo@127.0.0.1:5432/keijo')
-    # [END cloud_sql_postgres_sqlalchemy_create_tcp]
-    pool.dialect.description_encoding = None
-    return pool
+    con = psycopg2.connect(**config.config())
+    return con
+
+#
+
 
 def get_post(post_id):
-    global db
-    db = get_db_connection()
-    conn = db.connect
-    conn.execute('SELECT * FROM posts WHERE id = %s',
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM posts WHERE id = %s',
                         (post_id,))
     post = cur.fetchone()
     conn.close()
@@ -49,8 +45,9 @@ def format_date(post_date):
 @app.route('/')
 def index():
     con = get_db_connection()
-    con.execute('SELECT * FROM posts')
-    posts=con.fetchall()
+    cursor = con.cursor()
+    cursor.execute('SELECT * FROM posts')
+    posts=cursor.fetchall()
     con.close()
     # we need to iterate over all posts and format their date accordingly
     dictrows = []
@@ -81,7 +78,8 @@ def create():
             flash('Title is required!')
         else:
             con = get_db_connection()
-            con.execute('INSERT INTO posts (title, content) VALUES (%s, %s)',
+            cursor = con.cursor()
+            cursor.execute('INSERT INTO posts (title, content) VALUES (%s, %s)',
                          (title, content))
             con.commit()
             con.close()
@@ -102,7 +100,8 @@ def edit(id):
             flash('Title is required!')
         else:
             con = get_db_connection()
-            con.execute('UPDATE posts SET title = %s, content = %s'
+            cursor = con.cursor()
+            cursor.execute('UPDATE posts SET title = %s, content = %s'
                          ' WHERE id = %s',
                          (title, content, id))
             con.commit()
@@ -118,7 +117,8 @@ def delete(id):
     post = get_post(id)
     con = get_db_connection()
     t = (id,)
-    con.execute('DELETE FROM posts WHERE id = %s', t)
+    cursor = con.cursor()
+    cursor.execute('DELETE FROM posts WHERE id = %s', t)
     con.commit()
     con.close()
     flash('"{}" was successfully deleted!'.format(post[2]))
