@@ -1,8 +1,8 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/pipeline-demo-328906/juukeli', '.']
+  args: ['build', '-t', 'gcr.io/PRJOECT_ID/IMAGE_NAME', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/pipeline-demo-328906/juukeli']
-images: ['gcr.io/pipeline-demo-328906/juukeli']
+  args: ['push', 'gcr.io/PRJOECT_ID/IMAGE_NAME']
+images: ['gcr.io/PRJOECT_ID/IMAGE_NAME']
 options:
   logging: CLOUD_LOGGING_ONLY
