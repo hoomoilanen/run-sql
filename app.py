@@ -3,12 +3,6 @@ import config
 from flask import Flask, render_template, request, url_for, flash, redirect, Response
 from werkzeug.exceptions import abort
 from datetime import datetime
-import datetime
-import logging
-import os
-import ssl
-import sqlalchemy
-from sqlalchemy import create_engine
 
 def get_db_connection():
     con = psycopg2.connect(**config.config())
